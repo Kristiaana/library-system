@@ -25,17 +25,15 @@ export class LoansService {
     const reader = await this.readerRepo.findOne({
       where: { id: dto.readerId },
     });
-    if (!reader) throw new NotFoundException('Reader not found');
+    if (!reader) throw new NotFoundException('Lasītājs netika atrasts');
 
     const copy = await this.copyRepo.findOne({ where: { id: dto.copyId } });
-    if (!copy) throw new NotFoundException('Book copy not found');
+    if (!copy) throw new NotFoundException('Eksemplārs netika atrasts');
 
-    // biznesa noteikums
     if (copy.status !== BookCopyStatus.AVAILABLE) {
-      throw new BadRequestException('Book copy is not available');
+      throw new BadRequestException('Eksemplārs nav pieejams izsniegšanai');
     }
 
-    // mainām statusu uz LOANED
     copy.status = BookCopyStatus.LOANED;
     await this.copyRepo.save(copy);
 
@@ -54,15 +52,15 @@ export class LoansService {
 
   async returnLoan(id: number) {
     const loan = await this.loanRepo.findOne({ where: { id } });
-    if (!loan) throw new NotFoundException('Loan not found');
+    if (!loan)
+      throw new NotFoundException('Izsniegtais eksemplārs netika atrasts');
 
-    if (loan.returnDate) throw new BadRequestException('Loan already returned');
+    if (loan.returnDate)
+      throw new BadRequestException('Eksemplārs jau ir atgriezts');
 
-    // atgriežam loan
     loan.returnDate = new Date();
     await this.loanRepo.save(loan);
 
-    // mainām statusu atpakaļ
     loan.copy.status = BookCopyStatus.AVAILABLE;
     await this.copyRepo.save(loan.copy);
 

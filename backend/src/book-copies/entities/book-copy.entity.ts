@@ -5,6 +5,7 @@ import {
   Column,
   ManyToOne,
   CreateDateColumn,
+  Index,
 } from 'typeorm';
 
 export enum BookCopyStatus {
@@ -17,6 +18,7 @@ export class BookCopy {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Index({ unique: true })
   @Column({ unique: true })
   inventoryCode: string;
 

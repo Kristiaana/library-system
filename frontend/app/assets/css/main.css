@@ -1,0 +1,123 @@
+@import "tailwindcss";
+@import "@nuxt/ui"; /* Define font */
+@theme {
+  --font-sans: "DM Sans", sans-serif;
+} /* Light mode */
+:root {
+  --ui-primary: #4779c4; /* --toaster-bg: #ffffff; --toaster-text: #000000; --toaster-title: #0f766e; */ /* For USelectMenu's dropdown menu */
+  --ui-bg: #ffffff; /* White */
+  --ui-text: black; /* for input fields labels */
+  --label-ui-bg: #f9fafb; /*Default for light mode - bg-gray-50 */
+  --alert-icon-text: #eab308;
+  --globals--accents--accent-teal: #14b8a6;
+  --globals--accents--error: #ef4444;
+  --buttons--primary--background--default: #14b8a6;
+  --buttons--primary--background--hover: #0d9488;
+  --globals--backgrounds--basic: #f1f5f9;
+  --globals--backgrounds--lighter: #f8fafc;
+  --buttons--primary--background--focus: #0f766e;
+  --globals--backgrounds--super-light: #ffffff;
+  --globals--strokes--basic: #e2e8f0;
+  --buttons--primary--background--disabled: #cbd5e1;
+  --globals--strokes--dashed: #9fabbb;
+  --globals--strokes--block: #cbd5e1;
+  --globals--texts--basic: #171d22;
+  --buttons--primary--content--default: #ffffff;
+  --globals--texts--secondary: #495762;
+  --buttons--icon-button--background-default: rgba(20, 184, 166, 0);
+  --buttons--primary--content--disbled: #64748b;
+  --globals--texts--inverted: #ffffff;
+  --buttons--switch--background: #e2e8f0;
+  --buttons--submenu--background: #f1f5f9;
+  --buttons--menu-button--icon-default: #171d22;
+  --buttons--submenu--background-hover: #d4dee6;
+  --buttons--secondary--stroke: #14b8a6;
+  --buttons--secondary--stroke-hover: #0d9488;
+  --buttons--secondary--stroke-active: #0f766e;
+  --buttons--secondary--stroke-disabled: #94a3b8;
+  --buttons--secondary--content: #14b8a6;
+  --buttons--secondary--content-hover: #0d9488;
+  --buttons--secondary--content-active: #0f766e;
+  --buttons--secondary--content-disabled: #94a3b8;
+  --buttons--secondary--stroke-cancel: #ef4444;
+  --buttons--secondary--content-cancel: #ef4444;
+  --buttons--secondary--background-cancel-hover: #ef4444;
+  --buttons--secondary--background-cancel-focus: #d83535;
+  --buttons--secondary--text-cancel-hover: #ffffff;
+  --buttons--menu-button--text-default: #171d22;
+  --buttons--switch--icon-default: #94a3b8;
+  --buttons--submenu--icon: #171d22;
+  --buttons--icon-button--icon-default: #14b8a6;
+  --buttons--menu-button--icon-hover: #14b8a6;
+  --buttons--menu-button--text-hover: #14b8a6;
+  --buttons--menu-button--icon-focused: #179688;
+  --buttons--menu-button--text-focused: #179688;
+  --buttons--menu-button--icon-disabled: #778b9c;
+  --buttons--menu-button--text-disabled: #778b9c;
+  --inputs--icons--default: #0f172a;
+  --inputs--strokes--default: #cbd5e1;
+  --inputs--text--default: #0f172a;
+  --inputs--placeholders--default: #94a3b8;
+  --buttons--icon-button--outline-default: #14b8a6;
+  --buttons--switch--icon-active: #ffffff;
+  --buttons--submenu--text: #171d22;
+  --buttons--switch--icon-active-background: #14b8a6;
+  --buttons--submenu--accent: #14b8a6;
+  --buttons--icon-button--background-hover: #14b8a6;
+  --inputs--placeholders--hover: #94a3b8;
+  --buttons--icon-button--icon-hover: #171d22;
+  --buttons--submenu--text-disabled: #919fac;
+  --inputs--placeholders--focus: #94a3b8;
+  --buttons--icon-button--outline-hover: #14b8a6;
+  --buttons--icon-button--background-focus: #22eed4;
+  --buttons--icon-button--icon-focus: #171d22;
+  --buttons--icon-button--outline-focus: #14b8a6;
+  --buttons--icon-button--background-disabled: #cbd5e1;
+  --buttons--icon-button--icon-disabled: #778b9c;
+  --buttons--icon-button--outline-disabled: #a7b2c0;
+  --inputs--backgrounds--default: #ffffff;
+  --inputs--backgrounds--hover: #ffffff;
+  --inputs--backgrounds--focus: #ffffff;
+  --inputs--backgrounds--disabled: #e2e8f0;
+  --inputs--strokes--hover: #14b8a6;
+  --inputs--icons--hover: #0f172a;
+  --inputs--icons--focus: #0f172a;
+  --inputs--strokes--focus: #14b8a6;
+  --inputs--strokes--disabled: #cbd5e1;
+  --inputs--icons--disabled: #8893ac;
+  --inputs--placeholders--disabled: #8893ac;
+} /* Dark mode */
+
+.unavigation-menu {
+  background: transparent !important;
+}
+h1 {
+  @apply text-2xl font-bold text-stone-950 dark:text-gray-400;
+}
+p {
+  @apply text-base text-stone-950 dark:text-gray-400;
+}
+.scroll-rounded::-webkit-scrollbar {
+  height: 8px;
+}
+.scroll-rounded::-webkit-scrollbar-track {
+  background: #f3f4f6; /* Tailwind: gray-100 */
+  border-radius: 9999px; /* full */
+}
+.scroll-rounded::-webkit-scrollbar-thumb {
+  background: #9ca3af; /* Tailwind: gray-400 */
+  border-radius: 9999px; /* full */
+} /* Firefox support */
+.scroll-rounded {
+  scrollbar-width: thin;
+  scrollbar-color: #9ca3af #f3f4f6;
+} /* Makes sure label floats up during autofill */
+input:not(:placeholder-shown) ~ label,
+input:-webkit-autofill ~ label {
+  font-size: 11px;
+}
+
+/* Disable Nuxt UI table divider line */
+.no-ui-divider tr.absolute.h-px {
+  display: none !important;
+}
