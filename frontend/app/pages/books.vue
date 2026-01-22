@@ -52,11 +52,12 @@ function toastError(e: any) {
 
 const searchTerm = ref("");
 
+/* ✅ data load kā copies.vue */
 const {
   data: books,
   pending,
   error,
-  refresh,
+  refresh: refreshBooks,
 } = await useFetch<Book[]>(`${api}/books`, { default: () => [] });
 
 /* ---------- modal state ---------- */
@@ -115,7 +116,7 @@ async function submitBook(payload: {
 
     isFormOpen.value = false;
     selected.value = null;
-    await refresh();
+    await refreshBooks();
   } catch (e: any) {
     toastError(e);
   } finally {
@@ -136,7 +137,7 @@ async function confirmDelete() {
 
     isDeleteOpen.value = false;
     deleteTarget.value = null;
-    await refresh();
+    await refreshBooks();
   } catch (e: any) {
     toastError(e);
   } finally {
@@ -173,6 +174,7 @@ const deleteLabel = computed(() => {
           icon="i-heroicons-plus"
           class="h-[3rem] text-white cursor-pointer"
           @click="openCreate"
+          :disabled="!!pending"
         >
           Pievienot
         </UButton>
@@ -181,8 +183,8 @@ const deleteLabel = computed(() => {
 
     <UAlert
       v-if="error"
-      title="Error"
-      description="Failed to load books."
+      title="Kļūda"
+      description="Neizdevās ielādēt grāmatas."
       icon="i-heroicons-exclamation-triangle"
     />
 

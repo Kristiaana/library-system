@@ -145,7 +145,6 @@ const columns: TableColumn<Loan>[] = [
                 'text-center text-[var(--globals--texts--secondary)] bg-[var(--globals--backgrounds--lighter)]',
             }"
           >
-            <!-- Reader -->
             <template #reader-cell="{ row }">
               <span>
                 {{ row.original.reader?.firstName }}
@@ -153,17 +152,14 @@ const columns: TableColumn<Loan>[] = [
               </span>
             </template>
 
-            <!-- Copy -->
             <template #copy-cell="{ row }">
               <span>{{ row.original.copy?.inventoryCode ?? "—" }}</span>
             </template>
 
-            <!-- Book -->
             <template #book-cell="{ row }">
               <span>{{ row.original.copy?.book?.title ?? "—" }}</span>
             </template>
 
-            <!-- Dates -->
             <template #loanDate-cell="{ row }">
               <span>{{ formatDate(row.original.loanDate) }}</span>
             </template>
@@ -172,7 +168,6 @@ const columns: TableColumn<Loan>[] = [
               <span>{{ formatDate(row.original.dueDate) }}</span>
             </template>
 
-            <!-- Status -->
             <template #state-cell="{ row }">
               <div class="flex items-center gap-2">
                 <UBadge
@@ -180,7 +175,7 @@ const columns: TableColumn<Loan>[] = [
                   color="success"
                   variant="soft"
                 >
-                  RETURNED
+                  ATGRIEZTA
                 </UBadge>
 
                 <UBadge
@@ -188,14 +183,15 @@ const columns: TableColumn<Loan>[] = [
                   color="error"
                   variant="soft"
                 >
-                  OVERDUE
+                  KAVĒTA
                 </UBadge>
 
-                <UBadge v-else color="primary" variant="soft"> ACTIVE </UBadge>
+                <UBadge v-else color="primary" variant="soft">
+                  IZSNIEGTA
+                </UBadge>
               </div>
             </template>
 
-            <!-- Actions -->
             <template #actions-cell="{ row }">
               <UButton
                 v-if="!row.original.returnDate"

@@ -7,6 +7,8 @@ import { BooksModule } from './books/books.module';
 import { BookCopiesModule } from './book-copies/book-copies.module';
 import { LoansModule } from './loans/loans.module';
 import { ReportsModule } from './reports/reports.module';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { ReportsModule } from './reports/reports.module';
     BookCopiesModule,
     LoansModule,
     ReportsModule,
+    UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
