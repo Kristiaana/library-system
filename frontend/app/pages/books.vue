@@ -10,6 +10,13 @@ type Book = {
   createdAt: string;
 };
 
+type SubmitBookPayload = {
+  title: string;
+  author: string;
+  genre?: string | null;
+  isbn?: string | null;
+};
+
 const config = useRuntimeConfig();
 const api = config.public.apiBase;
 
@@ -52,7 +59,6 @@ function toastError(e: any) {
 
 const searchTerm = ref("");
 
-/* ✅ data load kā copies.vue */
 const {
   data: books,
   pending,
@@ -60,7 +66,6 @@ const {
   refresh: refreshBooks,
 } = await useFetch<Book[]>(`${api}/books`, { default: () => [] });
 
-/* ---------- modal state ---------- */
 const isFormOpen = ref(false);
 const formMode = ref<"create" | "edit">("create");
 const selected = ref<Book | null>(null);
@@ -92,13 +97,7 @@ function openDelete(id: number) {
   isDeleteOpen.value = true;
 }
 
-/* ---------- API actions ---------- */
-async function submitBook(payload: {
-  title: string;
-  author: string;
-  genre?: string;
-  isbn?: string;
-}) {
+async function submitBook(payload: SubmitBookPayload) {
   saving.value = true;
 
   try {

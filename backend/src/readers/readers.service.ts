@@ -20,8 +20,28 @@ export class ReadersService {
     private readonly loanRepo: Repository<Loan>,
   ) {}
 
-  create(dto: CreateReaderDto) {
-    const reader = this.repo.create({ ...dto, active: dto.active ?? true });
+  private normalizeEmail(email: string) {
+    return email.trim().toLowerCase();
+  }
+
+  async create(dto: CreateReaderDto) {
+    const email = this.normalizeEmail(dto.email);
+
+    const existing = await this.repo.findOne({
+      where: { email },
+      select: { id: true },
+    });
+
+    if (existing) {
+      throw new BadRequestException('Šāds e-pasts jau ir reģistrēts.');
+    }
+
+    const reader = this.repo.create({
+      ...dto,
+      email,
+      active: dto.active ?? true,
+    });
+
     return this.repo.save(reader);
   }
 
@@ -37,6 +57,21 @@ export class ReadersService {
 
   async update(id: number, dto: UpdateReaderDto) {
     const reader = await this.findOne(id);
+
+    if (dto.email !== undefined) {
+      const email = this.normalizeEmail(dto.email);
+
+      const existing = await this.repo.findOne({
+        where: { email },
+        select: { id: true },
+      });
+
+      if (existing && existing.id !== id) {
+        throw new BadRequestException('Šāds e-pasts jau ir reģistrēts.');
+      }
+
+      dto.email = email;
+    }
 
     if (dto.active === false && reader.active !== false) {
       const activeLoan = await this.loanRepo.findOne({

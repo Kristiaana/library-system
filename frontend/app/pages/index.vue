@@ -25,7 +25,6 @@ const {
   default: () => ({ overdueLoans: 0 }),
 });
 
-const pendingAny = computed(() => p1.value || p2.value);
 const errorAny = computed(() => e1.value || e2.value);
 </script>
 

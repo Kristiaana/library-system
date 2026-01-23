@@ -13,8 +13,8 @@ type Book = {
 type BookFormState = {
   title: string;
   author: string;
-  genre: string;
-  isbn: string;
+  genre: string | null;
+  isbn: string | null;
 };
 
 const props = defineProps<{
@@ -28,16 +28,20 @@ const emit = defineEmits<{
   (e: "update:open", v: boolean): void;
   (
     e: "submit",
-    payload: { title: string; author: string; genre?: string; isbn?: string },
+    payload: {
+      title: string;
+      author: string;
+      genre?: string | null;
+      isbn?: string | null;
+    },
   ): void;
 }>();
 
-/* ---------------- state ---------------- */
 const state = reactive<BookFormState>({
   title: props.initial?.title ?? "",
   author: props.initial?.author ?? "",
-  genre: (props.initial?.genre ?? "") as string,
-  isbn: (props.initial?.isbn ?? "") as string,
+  genre: props.initial?.genre ?? null,
+  isbn: props.initial?.isbn ?? null,
 });
 
 watch(
@@ -45,8 +49,8 @@ watch(
   () => {
     state.title = props.initial?.title ?? "";
     state.author = props.initial?.author ?? "";
-    state.genre = (props.initial?.genre ?? "") as string;
-    state.isbn = (props.initial?.isbn ?? "") as string;
+    state.genre = props.initial?.genre ?? null;
+    state.isbn = props.initial?.isbn ?? null;
   },
   { deep: true },
 );
@@ -55,7 +59,6 @@ const titleText = computed(() =>
   props.mode === "create" ? "Pievienot grāmatu" : "Labot grāmatu",
 );
 
-/* ---------------- validation ---------------- */
 const validate = (s: BookFormState): FormError[] => {
   const errors: FormError[] = [];
 
@@ -80,20 +83,12 @@ const validate = (s: BookFormState): FormError[] => {
   return errors;
 };
 
-/* ---------------- submit/close ---------------- */
 function onSubmit(e: FormSubmitEvent<BookFormState>) {
-  const payload = {
+  emit("submit", {
     title: e.data.title.trim(),
     author: e.data.author.trim(),
-    genre: e.data.genre.trim(),
-    isbn: e.data.isbn.trim(),
-  };
-
-  emit("submit", {
-    title: payload.title,
-    author: payload.author,
-    ...(payload.genre ? { genre: payload.genre } : {}),
-    ...(payload.isbn ? { isbn: payload.isbn } : {}),
+    genre: e.data.genre?.trim() ? e.data.genre.trim() : null,
+    isbn: e.data.isbn?.trim() ? e.data.isbn.trim() : null,
   });
 }
 
@@ -139,7 +134,6 @@ function close() {
         @submit.prevent="onSubmit"
       >
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-          <!-- ✅ title (required *) -->
           <UFormField name="title" label="" class="md:col-span-2">
             <CommonInputField
               id="book-title"
@@ -151,7 +145,6 @@ function close() {
             />
           </UFormField>
 
-          <!-- ✅ author (required *) -->
           <UFormField name="author" label="" class="md:col-span-2">
             <CommonInputField
               id="book-author"
@@ -163,7 +156,6 @@ function close() {
             />
           </UFormField>
 
-          <!-- genre (optional) -->
           <UFormField name="genre" label="">
             <CommonInputField
               id="book-genre"
@@ -174,7 +166,6 @@ function close() {
             />
           </UFormField>
 
-          <!-- isbn (optional) -->
           <UFormField name="isbn" label="">
             <CommonInputField
               id="book-isbn"
